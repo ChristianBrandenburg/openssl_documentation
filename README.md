@@ -149,7 +149,7 @@ This is my personal list of OpenSSL commands that I have used thoughout the year
 
 **Verify the signed timestamp request**
 
-openssl ts -reply -in <tsresponse.tsr> -text
+    openssl ts -reply -in <tsresponse.tsr> -text
 
 ## Connections
 
