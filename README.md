@@ -16,6 +16,7 @@ This is my personal list of OpenSSL commands that I have used thoughout the year
 
 
 # OpenSSL commands 
+Everything in < > needs to be replaced with your own input/output
 
 ## Conversions
 
