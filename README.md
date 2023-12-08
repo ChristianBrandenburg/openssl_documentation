@@ -44,7 +44,8 @@ Everything in < > needs to be replaced with your own input/output
     openssl pkcs12 -export -out <cert.pfx> -inkey <privatekey.pem> -in <cert.pem> -certfile <CAcerts.pem>
 
 
-**Convert a PEM certificate file and a private key to PKCS#12 compatible with older version of Windows (.pfx .p12) 
+**Convert a PEM certificate file and a private key to PKCS#12 compatible with older version of Windows (.pfx .p12)**
+
     openssl pkcs12 -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -export -out <cert.pfx> -inkey <privatekey.pem> -in <CAcerts.pem>
 
 (NB: older versions of Windows do not support AES256 for the password, this command exports the .pfx with SHA1-3DES instead)
@@ -85,7 +86,7 @@ Everything in < > needs to be replaced with your own input/output
     openssl rsa -noout -modulus -in <privatekey.pem> | openssl md5
     openssl req -noout -modulus -in <CSR.csr> | openssl md5
 
-(If value is the same it matches)
+(If the values are the same the key/CSR/certificate correspond to each other)
 
 
 **Check if the encoding of special characters is correct**
@@ -110,6 +111,25 @@ Everything in < > needs to be replaced with your own input/output
 **Generate a self-signed certificate**
 
     openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout <privatekey.pem> -out <cert.pem>
+
+
+**List available ECC curves**
+    
+    openssl ecparam -list_curves
+
+(NB: prime256v1 is the most commonly used ECC curve)
+
+
+**Generate new ECC private key**
+
+    openssl ecparam -name prime256v1 -genkey -noout -out <privatekey.pem>
+
+(NB: If another curve is needed replace prime256v1 in the command)
+
+
+**Generate public key from ECC private key**
+
+    openssl ec -in <privatekey.pem> -pubout -out <publicekey.pem>
 
 
 **Generate a certificate signing request (CSR) for an existing private key**
@@ -192,7 +212,7 @@ For Asymmetric encryption you must first generate your private key and extract t
     openssl genrsa -aes256 -out <privatekey.pem> 4096
     openssl rsa -in private.key -pubout -out <publickey.pem>
 
-(The 4096 value refers to the keysize this can changed if needed to fx. 8192 or 2048)
+(NB: The 4096 value refers to the keysize this can changed if needed to fx. 8192 or 2048)
 
 **To encrypt:**
 
@@ -239,9 +259,9 @@ Older version of OpenSSL used this a default but now uses X.509 formatting inste
 Common extensions: `.key`
 
 **PKCS#7**
-Know as Cryptographic Message Syntax (CMS). Certificate container which can hold certificate files in DER or PEM encoding. Can be recognized by having "PKCS7" in the header/footer.
+Known as Cryptographic Message Syntax (CMS). Certificate container which can hold certificate files in DER or PEM encoding. Can be recognized by having "PKCS7" in the header/footer.
 This format is usually used to transfer certificates and the corresponding intermediate in one file. Does not include private keys. 
-Also used for certificate revocations lists (CRL's) 
+Also used for certificate revocations lists (CRL's) and digital signatures. 
 
 Common extensions: `.p7b`
 
@@ -253,7 +273,7 @@ Common extensions: `.key`
 
 **PKCS#10**
 Format for Certificate Signing Requests (CSR's). Contains a public key and identifying information about the key holder. The CSR is sent to a Certificate Authority (CA) to obtain a digital certificate.
-A CSR includes a hash of the content signed by the corresponding private key. If any information is changed the CA will reject it. CA's can choose to ignore fiels and use other during certificate issuance
+A CSR includes a hash of the content signed by the corresponding private key. If any information is changed the CA will reject it. CA's can choose to ignore fields and use other during certificate issuance
 fx. correcting identifying information or adding domain names as SAN's  
 
 Common extensions: `.csr`
