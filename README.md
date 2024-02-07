@@ -154,7 +154,7 @@ Everything in < > needs to be replaced with your own input/output
 
 **Very certificate chain. Root is set to untrusted because it is self-signed**
 
-    openssl verify -verboose -CAfile <root_cert.pem> -untrusted <intermediate_cert.pem> <cert.pem>
+    openssl verify -verbose -CAfile <root_cert.pem> -untrusted <intermediate_cert.pem> <cert.pem>
 
 (NB: openssl verify stops at the first self-signed certificate it encounters, remember if used for private trust)
 
