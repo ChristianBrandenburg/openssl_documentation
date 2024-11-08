@@ -44,7 +44,7 @@ Everything in < > needs to be replaced with your own input/output
     openssl pkcs12 -export -out <cert.pfx> -inkey <privatekey.pem> -in <cert.pem> -certfile <CAcerts.pem>
 
 
-**Convert a PEM certificate file and a private key to PKCS#12 compatible with older version of Windows (.pfx .p12)**
+**Convert a PEM certificate file and a private key to PKCS#12 compatible with older versions of Windows ie. 2016/10 (.pfx .p12)**
 
     openssl pkcs12 -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -export -out <cert.pfx> -inkey <privatekey.pem> -in <CAcerts.pem>
 
